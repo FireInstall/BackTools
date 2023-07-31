@@ -12,9 +12,8 @@ import java.util.WeakHashMap;
 
 @Environment(EnvType.CLIENT)
 public class ClientSetup implements ClientModInitializer {
-
-    public static BackToolsConfig config;
     public static final Map<AbstractClientPlayerEntity, HeldItemContext> HELD_TOOLS = new WeakHashMap<>();
+    public static BackToolsConfig config;
 
     @Override
     public void onInitializeClient() {

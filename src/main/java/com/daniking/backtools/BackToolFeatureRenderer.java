@@ -19,10 +19,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ShieldItem;
 import net.minecraft.util.Arm;
 import net.minecraft.util.math.RotationAxis;
+import org.jetbrains.annotations.NotNull;
 
 @Environment(EnvType.CLIENT)
-public class BackToolFeatureRenderer <T extends AbstractClientPlayerEntity, M extends PlayerEntityModel<T>> extends HeldItemFeatureRenderer<T, M> {
-
+public class BackToolFeatureRenderer<T extends AbstractClientPlayerEntity, M extends PlayerEntityModel<T>> extends HeldItemFeatureRenderer<T, M> {
     public ItemStack mainStack = ItemStack.EMPTY;
     public ItemStack offStack = ItemStack.EMPTY;
     public Arm mainArm = Arm.RIGHT;
@@ -33,8 +33,7 @@ public class BackToolFeatureRenderer <T extends AbstractClientPlayerEntity, M ex
 
 
     @Override
-    public void render(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, T player, float f, float g, float h, float j, float k, float l) {
-
+    public void render(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, @NotNull T player, float f, float g, float h, float j, float k, float l) {
         if (!(player.isPartVisible(PlayerModelPart.CAPE) && player.getCapeTexture() != null) && !player.isInvisible() && !player.isSleeping() && ClientSetup.HELD_TOOLS.containsKey(player)) {
             final HeldItemContext ctx = ClientSetup.HELD_TOOLS.get(player);
 
@@ -50,9 +49,8 @@ public class BackToolFeatureRenderer <T extends AbstractClientPlayerEntity, M ex
         }
     }
 
-    private void renderItem(float offset, MatrixStack matrices, VertexConsumerProvider provider, int light,  final int ticks, final float partialTicks) {
-
-        matrices.translate(0F, 4F/16F, 1.91F/16F + (offset / 16F));
+    private void renderItem(float offset, @NotNull MatrixStack matrices, VertexConsumerProvider provider, int light, final int ticks, final float partialTicks) {
+        matrices.translate(0F, 4F / 16F, 1.91F / 16F + (offset / 16F));
         matrices.translate(0F, 0F, 0.025F);
 
         if (!this.mainStack.isEmpty()) {
@@ -66,7 +64,7 @@ public class BackToolFeatureRenderer <T extends AbstractClientPlayerEntity, M ex
                 if (this.mainArm == Arm.LEFT) {
                     matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180F));
                     matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(-25F));
-                    matrices.translate(-2.5F/16F, 2F/16F, 1.25F/16F);
+                    matrices.translate(-2.5F / 16F, 2F / 16F, 1.25F / 16F);
                 } else {
                     matrices.translate(-1F / 16F, 0.25F / 16F, 1.0F / 16F);
                     matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(25F));
@@ -91,7 +89,7 @@ public class BackToolFeatureRenderer <T extends AbstractClientPlayerEntity, M ex
                 matrices.scale(scale, scale, scale);
                 if (this.mainArm == Arm.RIGHT) {
                     matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180F));
-                    matrices.translate(-2.5F/16F, 2F/16F, 1.25F/16F);
+                    matrices.translate(-2.5F / 16F, 2F / 16F, 1.25F / 16F);
                     matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(-25F));
                 } else {
                     matrices.translate(-1F / 16F, 0.25F / 16F, 1.0F / 16F);
