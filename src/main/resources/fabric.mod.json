@@ -25,7 +25,6 @@
   "mixins": [
     "backtools.mixins.json"
   ],
-
   "depends": {
     "fabricloader": "*",
     "fabric": "*",

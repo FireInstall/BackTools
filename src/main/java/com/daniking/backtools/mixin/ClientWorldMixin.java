@@ -11,6 +11,7 @@ import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.entry.RegistryEntry;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -28,7 +29,7 @@ public abstract class ClientWorldMixin {
     }
 
     @Inject(at = @At("HEAD"), method = "addEntity")
-    private void onEntityJoinWorld(Entity entity, CallbackInfo ci) {
+    private void onEntityJoinWorld(@NotNull Entity entity, CallbackInfo ci) {
         if (entity instanceof ItemEntity itemEntity) {
             if (entity.getWorld().isClient) {
                 final List<PlayerEntity> entities = entity.getWorld().getEntitiesByType(EntityType.PLAYER, entity.getBoundingBox().expand(1.0D, 1.0D, 1.0D), k -> true);

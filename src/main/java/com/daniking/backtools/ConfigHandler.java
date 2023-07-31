@@ -15,11 +15,11 @@ import java.util.Set;
 
 @Environment(EnvType.CLIENT)
 public class ConfigHandler {
-    private static final HashMap<Class<?>, Integer> TOOL_ORIENTATIONS = new HashMap<>();
-    private static final HashSet<Identifier> ENABLED_TOOLS = new HashSet<>();
-    private static final Set<Identifier> DISABLED_TOOLS = new HashSet<>();
-    private static boolean HELICOPTER_MODE = false;
     public static final HashSet<Identifier> BELT_TOOLS = new HashSet<>();
+    private static final @NotNull HashMap<Class<?>, Integer> TOOL_ORIENTATIONS = new HashMap<>();
+    private static final @NotNull HashSet<Identifier> ENABLED_TOOLS = new HashSet<>();
+    private static final @NotNull Set<Identifier> DISABLED_TOOLS = new HashSet<>();
+    private static boolean HELICOPTER_MODE = false;
 
     public static int getToolOrientation(@NotNull Item item) {
         return getToolOrientation(item.getClass());
@@ -29,13 +29,12 @@ public class ConfigHandler {
         if (object.equals(Item.class)) {
             return 0;
         }
-        if (!TOOL_ORIENTATIONS.containsKey(object)) {
-            TOOL_ORIENTATIONS.put(object, getToolOrientation(object.getSuperclass()));
-        }
+
+        TOOL_ORIENTATIONS.computeIfAbsent(object, obj -> getToolOrientation(obj.getSuperclass()));
         return TOOL_ORIENTATIONS.get(object);
     }
 
-    public static boolean isItemEnabled(final Item item) {
+    public static boolean isItemEnabled(final @NotNull Item item) {
         final Identifier registryName = Registries.ITEM.getId(item);
         if (!ConfigHandler.ENABLED_TOOLS.isEmpty()) {//whitelist only
             return ConfigHandler.ENABLED_TOOLS.contains(registryName);
@@ -49,7 +48,7 @@ public class ConfigHandler {
         return item instanceof MiningToolItem || item instanceof SwordItem || item instanceof ShieldItem || item instanceof TridentItem || item instanceof BowItem || item instanceof ShearsItem || item instanceof CrossbowItem || item instanceof FishingRodItem;
     }
 
-    public static  boolean isBeltTool(final Item item) {
+    public static boolean isBeltTool(final Item item) {
         var itemId = Registries.ITEM.getId(item);
         ClientSetup.config.beltTools.forEach(beltTool -> BELT_TOOLS.add(new Identifier(beltTool)));
         return BELT_TOOLS.contains(itemId);
